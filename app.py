@@ -1,3 +1,4 @@
+import os
 import numpy as np
 import plotly.graph_objs as go
 import dash
@@ -11,6 +12,7 @@ Z_imag_default = 13
 
 # Web App
 app = dash.Dash(__name__)
+server = app.server  # Needed for Render deployment
 
 app.layout = html.Div([
     html.H1("Matching Network Visualizer"),
@@ -88,4 +90,5 @@ def update_graph(z_real, z_imag, freq):
     return {'data': [trace], 'layout': layout}
 
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    port = int(os.environ.get("PORT", 8050))
+    app.run(debug=True, host='0.0.0.0', port=port)
